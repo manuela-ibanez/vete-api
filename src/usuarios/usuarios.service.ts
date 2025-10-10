@@ -16,8 +16,8 @@ export class UsuariosService {
     return this.usuarioRepository.save(usuario);
   }
 
-  findAll() {
-    return this.usuarioRepository.find();
+  async findAll() {
+    return await this.usuarioRepository.find({ relations: ['mascotas'] });
   }
 
   findOne(id: number) {

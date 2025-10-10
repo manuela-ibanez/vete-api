@@ -18,7 +18,7 @@ export class MascotasService {
   }
 
   findAll() :Promise<Mascota[]> {
-    return this.mascotasRepository.find();
+    return this.mascotasRepository.find({ relations: ['usuario'] });
   }
 
   findOne(id: number): Promise<Mascota | null> {

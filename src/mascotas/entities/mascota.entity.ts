@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Usuario } from "src/usuarios/entities/usuario.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Mascota {
@@ -12,4 +13,6 @@ export class Mascota {
     peso: number;
     @Column()
     edad: number;
+    @ManyToOne(() => Usuario, (usuario) => usuario.mascotas, {onDelete: 'CASCADE'})
+    usuario: Usuario;
 }

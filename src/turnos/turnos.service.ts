@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTurnoDto } from './dto/create-turno.dto';
-import { UpdateTurnoDto } from './dto/update-turno.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Mascota } from 'src/mascotas/entities/mascota.entity';
 import { Repository } from 'typeorm';

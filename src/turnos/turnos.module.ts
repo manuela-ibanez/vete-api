@@ -7,7 +7,7 @@ import { Mascota } from 'src/mascotas/entities/mascota.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Turno, Mascota]) // <-- Importá las entidades que vas a usar
+    TypeOrmModule.forFeature([Turno, Mascota]), // expose both repositories to the module
   ],
   controllers: [TurnosController],
   providers: [TurnosService],

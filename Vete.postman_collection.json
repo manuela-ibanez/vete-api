@@ -1,0 +1,89 @@
+{
+	"info": {
+		"_postman_id": "a48af750-ec72-4cb6-ada6-e8a07442d590",
+		"name": "Vete",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36698586"
+	},
+	"item": [
+		{
+			"name": "Crear Usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"Nacho\",\n    \"email\": \"ignaciojonas@gmail.com\",\n    \"apellido\": \"Jonas\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/usuarios",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Mascota",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"Laica\",\n    \"clase\": \"Bulldog\",\n    \"peso\": 12,\n    \"edad\": 12\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/mascotas",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"mascotas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lista de Mascota",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"Laica\",\n    \"clase\": \"Bulldog\",\n    \"peso\": 12,\n    \"edad\": 12\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/mascotas",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"mascotas"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

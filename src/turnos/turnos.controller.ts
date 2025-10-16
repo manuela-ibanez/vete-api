@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { TurnosService } from './turnos.service';
 import { CreateTurnoDto } from './dto/create-turno.dto';
 import { UpdateTurnoDto } from './dto/update-turno.dto';
@@ -9,6 +19,19 @@ export class TurnosController {
 
   @Post()
   create(@Body() createTurnoDto: CreateTurnoDto) {
+    // Acepto solo fechas DD/MM/YYYY
+    let fecha = createTurnoDto.fecha.toString();
+    let partes = fecha.split('/');
+    let dia = parseInt(partes[0]); // Día
+    let mes = parseInt(partes[1]); // Mes
+    let anio = parseInt(partes[2]); // Año
+    if (dia < 1 || dia > 31 || mes < 1 || mes > 12 || anio < 2025) {
+      throw new HttpException(
+        'Fecha inválida. Formato correcto: DD/MM/YYYY',
+        HttpStatus.OK,
+      );
+    }
+    createTurnoDto.fecha = new Date('' + anio + '-' + mes + '-' + dia);
     return this.turnosService.create(createTurnoDto);
   }
 

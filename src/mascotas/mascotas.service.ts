@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMascotaDto } from './dto/create-mascota.dto';
-import { UpdateMascotaDto } from './dto/update-mascota.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Mascota } from './entities/mascota.entity';

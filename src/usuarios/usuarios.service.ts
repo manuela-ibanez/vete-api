@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Usuario } from './entities/usuario.entity';
 import { Repository } from 'typeorm';
+import { HttpException } from '@nestjs/common';
 
 @Injectable()
 export class UsuariosService {
@@ -11,9 +12,14 @@ export class UsuariosService {
       @InjectRepository(Usuario)
       private usuarioRepository: Repository<Usuario>,
     ) {}
-  create(createUsuarioDto: CreateUsuarioDto) {
-    const usuario = this.usuarioRepository.create(createUsuarioDto);
-    return this.usuarioRepository.save(usuario);
+  async create(createUsuarioDto: CreateUsuarioDto) {
+    try {
+        const usuario = this.usuarioRepository.create(createUsuarioDto);
+        return await this.usuarioRepository.save(usuario);
+    } catch (error) {
+        console.error('Error al crear el usuario:', error);
+        throw new HttpException('No se pudo crear el usuario', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async findAll() {

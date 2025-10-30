@@ -8,9 +8,9 @@ export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
   @Post()
-  async create(@Body() createUsuarioDto: CreateUsuarioDto) {
+  async create(@Body() createUsuarioDto: CreateUsuarioDto) { //Async hace que el metodo sea asincronico.
     try {
-      const usuario = await this.usuariosService.create(createUsuarioDto);
+      const usuario = await this.usuariosService.create(createUsuarioDto); //Llama al serivice para crear el usuario.
       return { mensaje: 'Usuario creado correctamente', usuario }; // Devuelve un mensaje y el usuario creado.
     } catch (error) {
       throw new HttpException('Error al crear el usuario', HttpStatus.BAD_REQUEST);
@@ -18,13 +18,13 @@ export class UsuariosController {
   }
 
   @Get()
-  findAll() {
-    return this.usuariosService.findAll();
+  findAll() { 
+    return this.usuariosService.findAll(); //Llama al service para obtener todos los usuarios.
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-      const usuario = await this.usuariosService.findOne(+id);
+  async findOne(@Param('id') id: string) { //Extrae el parametro ID de la URL.
+      const usuario = await this.usuariosService.findOne(+id); //Llama al service para obtener un usuario por su ID.
       if (!usuario) {
         throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
       }
@@ -32,13 +32,13 @@ export class UsuariosController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
+  async update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) { //Actualiza un usuario por su ID.
     try {
-      const usuario = await this.usuariosService.findOne(+id);
+      const usuario = await this.usuariosService.findOne(+id); //Verifica si el usuario existe antes de actualizarlo.
       if (!usuario) {
         throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
       }
-      const updatedUsuario = await this.usuariosService.update(+id, updateUsuarioDto);
+      const updatedUsuario = await this.usuariosService.update(+id, updateUsuarioDto); //Consulta al service para devolver los datos actualizados.
       return { mensaje: 'Usuario actualizado correctamente', usuario: updatedUsuario };
     } catch (error) {
       throw new HttpException('Error al actualizar el usuario', HttpStatus.BAD_REQUEST);
@@ -46,12 +46,12 @@ export class UsuariosController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-      const usuario = await this.usuariosService.findOne(+id);
+  async remove(@Param('id') id: string) { //Elimina un usuario por su ID.
+      const usuario = await this.usuariosService.findOne(+id); //Verifica si el usuario existe antes de eliminarlo.
       if (!usuario) {
         throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
       }
-      await this.usuariosService.remove(+id);
+      await this.usuariosService.remove(+id); //Llama al service para eliminar el usuario.
       return { mensaje: 'Usuario eliminado correctamente' };
   }
 }

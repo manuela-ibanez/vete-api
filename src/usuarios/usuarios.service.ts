@@ -11,11 +11,11 @@ export class UsuariosService {
   constructor(
       @InjectRepository(Usuario)
       private usuarioRepository: Repository<Usuario>,
-    ) {}
-  async create(createUsuarioDto: CreateUsuarioDto) {
+    ) {} //Inyecta el repositorio de usuarios.
+  async create(createUsuarioDto: CreateUsuarioDto) { //Recibe el DTO para crear un usuario.
     try {
-        const usuario = this.usuarioRepository.create(createUsuarioDto);
-        return await this.usuarioRepository.save(usuario);
+        const usuario = this.usuarioRepository.create(createUsuarioDto); //Crea la entidad usuario.
+        return await this.usuarioRepository.save(usuario); //Guarda el usuario en la base de datos.
     } catch (error) {
         console.error('Error al crear el usuario:', error);
         throw new HttpException('No se pudo crear el usuario', HttpStatus.INTERNAL_SERVER_ERROR);
@@ -23,16 +23,16 @@ export class UsuariosService {
   }
 
   async findAll() {
-    return await this.usuarioRepository.find({ relations: ['mascotas'] });
+    return await this.usuarioRepository.find({ relations: ['mascotas'] }); //Trae todos los usuarios con sus mascotas.
   }
 
   findOne(id: number) {
-    return this.usuarioRepository.findOneBy({id});
+    return this.usuarioRepository.findOneBy({id}); //Busca un usuario por su ID.
   }
 
   async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    await this.usuarioRepository.update(id, updateUsuarioDto);
-    const updatedUsuario = await this.usuarioRepository.findOneBy({ id }); // Fetch the updated entity
+    await this.usuarioRepository.update(id, updateUsuarioDto); //Actualiza el usuario con el ID y los datos del DTO.
+    const updatedUsuario = await this.usuarioRepository.findOneBy({ id }); //Se obtienen los datos actualizados.
       if (!updatedUsuario) {
         throw new Error(`Usuario with id ${id} not found after update.`);
       }
@@ -40,6 +40,6 @@ export class UsuariosService {
   }
 
   remove(id: number) {
-    return this.usuarioRepository.delete(id);
+    return this.usuarioRepository.delete(id); //Elimina el usuario por su ID.
   }
 }

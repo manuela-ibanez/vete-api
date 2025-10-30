@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, HttpStatus, HttpException, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, HttpStatus, HttpException, Put} from '@nestjs/common';
 import { MascotasService } from './mascotas.service';
 import { CreateMascotaDto } from './dto/create-mascota.dto';
 import { UpdateMascotaDto } from './dto/update-mascota.dto';
@@ -31,19 +31,24 @@ export class MascotasController {
       return mascota;
   }
 
-  @Put(':id')
+@Put(':id')
   async update(@Param('id') id: string, @Body() updateMascotaDto: UpdateMascotaDto) {
     try {
+      // Extraer el ID del usuario si se envía como un objeto
+      if (updateMascotaDto.usuario && typeof updateMascotaDto.usuario === 'object' && (updateMascotaDto.usuario as any).id) {
+        // Asignar el id extraído sin provocar error de tipos
+        updateMascotaDto.usuario = (updateMascotaDto.usuario as any).id;
+      }
+
       const mascota = await this.mascotasService.findOne(+id);
       if (!mascota) {
         throw new HttpException('Mascota no encontrada', HttpStatus.NOT_FOUND);
       }
-      const updatedMascota = await this.mascotasService.update(+id, updateMascotaDto);
-      if (!updatedMascota) {
-        throw new HttpException('Error al actualizar la mascota', HttpStatus.INTERNAL_SERVER_ERROR);
-      }
-      return { mensaje: 'Mascota actualizada correctamente', mascota: updatedMascota };
+      await this.mascotasService.update(+id, updateMascotaDto);
+      const updatedMascota = await this.mascotasService.findOne(+id); // Consultar los datos actualizados
+      return { mensaje: 'Mascota actualizada correctamente', usuario: updatedMascota };
     } catch (error) {
+      console.error('Error al actualizar la mascota:', error); // Registro del error
       throw new HttpException('Error al actualizar la mascota', HttpStatus.BAD_REQUEST);
     }
   }

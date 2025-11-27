@@ -14,6 +14,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: 'vetedb',
       autoLoadEntities: true,
       synchronize: true,
+      ssl: false,
     })],
   controllers: [AppController],
   providers: [AppService],

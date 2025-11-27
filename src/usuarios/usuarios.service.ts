@@ -12,8 +12,8 @@ export class UsuariosService {
   constructor(
     @InjectRepository(Usuario)
     private usuarioRepository: Repository<Usuario>,
-    @InjectRepository(Mascota)  // ← AGREGAR ESTO
-    private mascotasRepository: Repository<Mascota>,  // ← AGREGAR ESTO
+    @InjectRepository(Mascota)
+    private mascotasRepository: Repository<Mascota>
   ) {}
 
   async create(createUsuarioDto: CreateUsuarioDto) {
@@ -60,7 +60,7 @@ export class UsuariosService {
   findOne(id: number) {
     return this.usuarioRepository.findOne({
       where: { id },
-      relations: ['mascotas']  // ← Agregar relación
+      relations: ['mascotas'] 
     });
   }
 
@@ -68,7 +68,7 @@ export class UsuariosService {
     await this.usuarioRepository.update(id, updateUsuarioDto);
     const updatedUsuario = await this.usuarioRepository.findOne({
       where: { id },
-      relations: ['mascotas']  // ← Agregar relación
+      relations: ['mascotas'] 
     });
     if (!updatedUsuario) {
       throw new Error(`Usuario with id ${id} not found after update.`);

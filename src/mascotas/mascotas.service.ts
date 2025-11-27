@@ -29,7 +29,7 @@ export class MascotasService {
   findOne(id: number): Promise<Mascota | null> {
     return this.mascotasRepository.findOne({
       where: { id },
-      relations: ['usuario']  // ← Agregar relación
+      relations: ['usuario']
     });
   }
   
@@ -37,7 +37,7 @@ export class MascotasService {
     await this.mascotasRepository.update(id, updateMascotaDto);
     const updatedMascota = await this.mascotasRepository.findOne({
       where: { id },
-      relations: ['usuario']  // ← Agregar relación
+      relations: ['usuario']
     });
     if (!updatedMascota) {
       throw new Error(`Mascota with id ${id} not found after update.`);

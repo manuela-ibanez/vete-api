@@ -18,10 +18,10 @@ export class Mascota {
     @Column()
     edad: number;
 
-    @Column()  // ← AGREGAR ESTO
-    usuarioId: number;  // ← AGREGAR ESTO
+    @Column() 
+    usuarioId: number;
 
     @ManyToOne(() => Usuario, (usuario) => usuario.mascotas, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'usuarioId' })  // ← AGREGAR ESTO
+    @JoinColumn({ name: 'usuarioId' }) //Ahora nest no espera recibir un usuario, sino un ID asociado a un usuario, que se lo envia angular.
     usuario: Usuario;
 }

@@ -11,7 +11,7 @@ export class MascotasController {
   async create(@Body() createMascotaDto: CreateMascotaDto) {
     try {
       const mascota = await this.mascotasService.create(createMascotaDto);
-      return mascota;  // ← Devolver solo la mascota (sin mensaje wrapper)
+      return mascota;  //Devolver solo la mascota, sin el mensaje
     } catch (error) {
       throw new HttpException('Error al crear la mascota', HttpStatus.BAD_REQUEST);
     }
@@ -40,7 +40,7 @@ export class MascotasController {
       }
       
       const updatedMascota = await this.mascotasService.update(+id, updateMascotaDto);
-      return updatedMascota;  // ← Devolver solo la mascota actualizada
+      return updatedMascota;  //Devolver solo la mascota actualizada, sin el mensaje
     } catch (error) {
       console.error('Error al actualizar la mascota:', error);
       throw new HttpException('Error al actualizar la mascota', HttpStatus.BAD_REQUEST);

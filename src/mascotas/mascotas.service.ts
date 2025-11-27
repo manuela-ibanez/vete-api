@@ -6,34 +6,46 @@ import { Mascota } from './entities/mascota.entity';
 
 @Injectable()
 export class MascotasService {
-  constructor( //Inyecta el repositorio de mascotas.
+  constructor(
     @InjectRepository(Mascota)
     private mascotasRepository: Repository<Mascota>,
   ) {}
   
-  create(createMascotaDto: CreateMascotaDto) { //Recibe el DTO para crear una mascota.
-    const mascota = this.mascotasRepository.create(createMascotaDto);  
-    return this.mascotasRepository.save(mascota); //Guarda la mascota en la base de datos.
+  async create(createMascotaDto: CreateMascotaDto) {
+    const mascota = this.mascotasRepository.create(createMascotaDto);
+    const mascotaGuardada = await this.mascotasRepository.save(mascota);
+    
+    // Recargar con la relación de usuario
+    return this.mascotasRepository.findOne({
+      where: { id: mascotaGuardada.id },
+      relations: ['usuario']
+    });
   }
 
-  findAll() :Promise<Mascota[]> { //Cuando lo devuelve devuelve un array de mascotas.
-    return this.mascotasRepository.find({ relations: ['usuario'] }); //Le dice que tambien traiga la relacion con usuario.
+  findAll(): Promise<Mascota[]> {
+    return this.mascotasRepository.find({ relations: ['usuario'] });
   }
 
   findOne(id: number): Promise<Mascota | null> {
-    return this.mascotasRepository.findOneBy({id});
+    return this.mascotasRepository.findOne({
+      where: { id },
+      relations: ['usuario']  // ← Agregar relación
+    });
   }
   
   async update(id: number, updateMascotaDto: Partial<Mascota>): Promise<Mascota> {
-    await this.mascotasRepository.update(id, updateMascotaDto); //Actualiza la mascota con el ID y los datos del DTO.
-    const updatedMascota = await this.mascotasRepository.findOneBy({ id }); //Se obtienen los datos actualizados.
+    await this.mascotasRepository.update(id, updateMascotaDto);
+    const updatedMascota = await this.mascotasRepository.findOne({
+      where: { id },
+      relations: ['usuario']  // ← Agregar relación
+    });
     if (!updatedMascota) {
       throw new Error(`Mascota with id ${id} not found after update.`);
     }
     return updatedMascota;
   }
 
-  async remove(id: number) { //Elimina la mascota por su ID.
+  async remove(id: number) {
     await this.mascotasRepository.delete(id);
   }
 }

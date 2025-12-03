@@ -7,13 +7,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [UsuariosModule, MascotasModule, TypeOrmModule.forRoot({
       type: 'postgres',
-      url: process.env.DATABASE_URL, 
+      url: process.env.DATABASE_URL,
       autoLoadEntities: true,
       synchronize: true,
-
-      ssl: {
-        rejectUnauthorized: false,
-      }
+      ssl: { rejectUnauthorized: false },
     })],
   controllers: [AppController],
   providers: [AppService],

@@ -7,16 +7,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [UsuariosModule, MascotasModule, TypeOrmModule.forRoot({
       type: 'postgres',
-      url: process.env.DATABASE_URL ??
-      'postgress://postgress:postgress@localhost:5432',
-      host: 'localhost',
-      port: 5432,
-      username: 'vete-admin',
-      password: 'securepassword1234!',
-      database: 'vetedb',
+      url: process.env.DATABASE_URL, 
       autoLoadEntities: true,
       synchronize: true,
-      ssl: process.env.DATABASE_SSL === 'true' ? true : false,
+
+      ssl: {
+        rejectUnauthorized: false,
+      }
     })],
   controllers: [AppController],
   providers: [AppService],
